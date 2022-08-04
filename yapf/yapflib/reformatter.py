@@ -282,11 +282,10 @@ def _AlignTrailingComments(final_lines):
   while final_lines_index < len(final_lines):
     line = final_lines[final_lines_index]
     assert line.tokens
-
     processed_content = False
 
     for tok in line.tokens:
-      if (tok.is_comment and isinstance(tok.spaces_required_before, list) and
+      if (isinstance(tok.spaces_required_before, list) and tok.is_comment and
           tok.value.startswith('#')):
         # All trailing comments
         # NOTE not including comments that appear on a line by themselves
@@ -593,6 +592,9 @@ def _AlignArgAssign(final_lines):
   """NOTE One argument list of one function is on one logical line!
      But funtion calls/argument lists can be in argument list.
   """
+  #for l in final_lines:
+    #for t in l.tokens:
+      #print('token:', t.value, t.subtypes, t.is_comment, t.is_argname_start, t.is_argname)
 
   final_lines_index = 0
   while final_lines_index < len(final_lines):

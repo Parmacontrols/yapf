@@ -647,8 +647,8 @@ class FormatDecisionState(object):
       #-----------------------NOTE below -----------------------------------
       # we want newline comments inside the lline to
       # keep their original indentations
-      if current.is_comment:
-        indent_level = int(current.column/style.Get('INDENT_WIDTH'))
+      #if current.is_comment:
+        #indent_level = int(current.column/style.Get('INDENT_WIDTH'))
       #---------------------Added by Xiao----------------------------
       spaces = self.column
       if spaces:
@@ -984,6 +984,7 @@ class FormatDecisionState(object):
         not self.param_list_stack[-1].SplitBeforeClosingBracket(
             top_of_stack.indent) and top_of_stack.indent
         == ((self.line.depth + 1) * style.Get('INDENT_WIDTH'))):
+      # NOTE: comment inside argument list is not excluded in subtype assigner
       if (subtypes.PARAMETER_START in current.subtypes or
           (previous.is_comment and
            subtypes.PARAMETER_START in previous.subtypes)):
