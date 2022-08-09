@@ -240,7 +240,7 @@ class _SubtypeAssigner(pytree_visitor.PyTreeVisitor):
     # argument ::=
     #     test [comp_for] | test '=' test
     self._ProcessArgLists(node)
-    #NOTE added by Xiao to include one argument argument list
+    #NOTE added to include one argument argument list
     _SetArgListSubtype(node, subtypes.DEFAULT_OR_NAMED_ASSIGN,
                        subtypes.DEFAULT_OR_NAMED_ASSIGN_ARG_LIST)
 
@@ -296,8 +296,6 @@ class _SubtypeAssigner(pytree_visitor.PyTreeVisitor):
     if not node.children:
       return
 
-    #TODO exclude comments in the beginning by Xiao
-    #if node.children[0].type != grammar_token.COMMENT:
     _AppendFirstLeafTokenSubtype(node.children[0], subtypes.PARAMETER_START)
     _AppendLastLeafTokenSubtype(node.children[-1], subtypes.PARAMETER_STOP)
 
@@ -305,11 +303,9 @@ class _SubtypeAssigner(pytree_visitor.PyTreeVisitor):
     for i in range(1, len(node.children)):
       prev_child = node.children[i - 1]
       child = node.children[i]
-      #TODO exclude inline comments by Xiao
-      if prev_child.type == grammar_token.COMMA: #and child.type != grammar_token.COMMENT:
+
+      if prev_child.type == grammar_token.COMMA:
         _AppendFirstLeafTokenSubtype(child, subtypes.PARAMETER_START)
-      #elif prev_child.type == grammar_token.COMMENT:
-        #_AppendFirstLeafTokenSubtype(child, subtypes.PARAMETER_START)
       elif child.type == grammar_token.COMMA:
         _AppendLastLeafTokenSubtype(prev_child, subtypes.PARAMETER_STOP)
 
@@ -409,16 +405,11 @@ def _AppendTokenSubtype(node, subtype):
 #TODO should exclude comment child to all Appendsubtypes functions
 def _AppendFirstLeafTokenSubtype(node, subtype):
   """Append the first leaf token's subtypes."""
-   ##TODO exclude the comment leaf by Xiao
+  #TODO exclude the comment leaf
   if isinstance(node, pytree.Leaf):
-    #if node.type != grammar_token.COMMENT:
       _AppendTokenSubtype(node, subtype)
       return
-  #else:
-    #TODO exclude first comment leaf by Xiao
-    #if node.children[0].type == grammar_token.COMMENT:
-      #_AppendFirstLeafTokenSubtype(node.children[1], subtype)
-    #else:
+
   _AppendFirstLeafTokenSubtype(node.children[0], subtype)
 
 

@@ -325,45 +325,37 @@ class FormatToken(object):
     return self.is_comment and re.match(
         r'#.*\bcopybara:\s*(strip|insert|replace)', self.value)
 
-  #--------------------------------------------------------------------
-  """Implemented by Xiao"""
+
   @property
   def is_assign(self):
     return subtypes.ASSIGN_OPERATOR in self.subtypes
 
-  """Implemented by Xiao"""
   @property
   def is_dict_colon(self):
     # if the token is dictionary colon and
     # the dictionary has no comp_for
     return self.value == ':' and self.previous_token.is_dict_key
 
-  """Implemented by Xiao"""
   @property
   def is_dict_key(self):
     # if the token is dictionary key which is not preceded by doubel stars and
     # the dictionary has no comp_for
     return subtypes.DICTIONARY_KEY_PART in self.subtypes
 
-  """Implemented by Xiao"""
   @property
   def is_dict_value(self):
     return subtypes.DICTIONARY_VALUE in self.subtypes
 
-  """Implemented by Xiao"""
   @property
   def is_augassign(self):
     augassigns = {'+=', '-=' , '*=' , '@=' , '/=' , '%=' , '&=' , '|=' , '^=' ,
             '<<=' , '>>=' , '**=' , '//='}
     return self.value in augassigns
 
-  """Implemented by Xiao"""
   @property
   def is_argassign(self):
      return (subtypes.DEFAULT_OR_NAMED_ASSIGN in self.subtypes
             or subtypes.VARARGS_LIST in self.subtypes)
-
-  """Implemented by Xiao"""
 
   def get_previous_and_next_subtypes(self):
     if self is not None:
@@ -399,7 +391,7 @@ class FormatToken(object):
 
     return False
 
-  """Implemented by Xiao"""
+
   @property
   def is_argname_start(self):
     # return true if it's the start of every argument entry
@@ -417,7 +409,6 @@ class FormatToken(object):
         and (subtypes.TYPED_NAME_ARG_LIST in self.subtypes
         or subtypes.DEFAULT_OR_NAMED_ASSIGN_ARG_LIST in self.subtypes))
         )
-#-------------------------------------------------------------------------
 
 
 

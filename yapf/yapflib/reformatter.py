@@ -104,13 +104,12 @@ def Reformat(llines, verify=False, lines=None):
     prev_line = lline
 
 
-  """Xiao's alignment implementation"""
   if style.Get('ALIGN_ASSIGNMENT'):
     _AlignAssignment(final_lines)
-  if (style.Get('EACH_DICT_ENTRY_ON_SEPARATE_LINE') and style.Get('DEDENT_CLOSING_BRACKETS')
+  if (style.Get('EACH_DICT_ENTRY_ON_SEPARATE_LINE')
     and style.Get('ALIGN_DICT_COLON')):
     _AlignDictColon(final_lines)
-  if style.Get('DEDENT_CLOSING_BRACKETS') and style.Get('ALIGN_ARGUMENT_ASSIGNMENT'):
+  if style.Get('ALIGN_ARGUMENT_ASSIGNMENT'):
     _AlignArgAssign(final_lines)
 
   _AlignTrailingComments(final_lines)
@@ -674,6 +673,12 @@ def _AlignArgAssign(final_lines):
                 index += 1
                 if index < len(line_tokens):
                   line_tok = line_tokens[index]
+                # when the matching closing bracket never found
+                # due to edge cases where the closing bracket
+                # is not indented or dedented
+                else:
+                  all_arg_name_lengths.append(arg_name_lengths)
+                  break
 
                 # if there is a new object(list/tuple/dict) with its entries on newlines,
                 # save, reset and continue to calulate new alignment
@@ -788,7 +793,6 @@ def _AlignDictColon(final_lines):
                   keys_content = ''
                   all_dict_keys_lengths = []
                   dict_keys_lengths = []
-                  index = open_index
 
                   # record the column number of the first key
                   first_key_column = len(line_tok.formatted_whitespace_prefix.lstrip('\n'))
@@ -822,6 +826,12 @@ def _AlignDictColon(final_lines):
                     index += 1
                     if index < len(line_tokens):
                       line_tok = line_tokens[index]
+                    # when the matching closing bracket never found
+                    # due to edge cases where the closing bracket
+                    # is not indented or dedented, e.g. ']}', with another bracket before
+                    else:
+                      all_dict_keys_lengths.append(dict_keys_lengths)
+                      break
 
                     # if there is new objects(list/tuple/dict) with its entries on newlines,
                     # or a function call with any of its arguments on newlines,
@@ -876,13 +886,13 @@ def _AlignDictColon(final_lines):
                             padded_spaces = ' ' * (
                               max_keys_length - dict_keys_lengths[keys_lengths_index] - 1)
                             keys_lengths_index += 1
-                            #TODO if the existing whitespaces are larger than padded spaces
+                            #NOTE if the existing whitespaces are larger than padded spaces
                             existing_whitespace_prefix = \
                                   token.formatted_whitespace_prefix.lstrip('\n')
                             colon_content = '{}{}'.format(padded_spaces, token.value.strip())
 
                             # in case the existing spaces are larger than the paddes spaces
-                            if (len(padded_spaces) == 0 or len(padded_spaces) > 0
+                            if (len(padded_spaces) == 1 or len(padded_spaces) > 1
                               and len(existing_whitespace_prefix) >= len(padded_spaces)):
                               # remove the existing spaces
                               token.whitespace_prefix = ''
