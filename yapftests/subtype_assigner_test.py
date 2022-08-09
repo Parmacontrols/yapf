@@ -135,7 +135,7 @@ class SubtypeAssignerTest(yapf_test_helper.YAPFTest):
         ],
     ])
 
-  #---------------------------below added by Xiao---------------------------
+  #----test comment subtype inside the argument list----
   def testCommentSubtypesInsideArglist(self):
     code = textwrap.dedent("""\
         foo(
@@ -171,6 +171,7 @@ class SubtypeAssignerTest(yapf_test_helper.YAPFTest):
         ],
     ])
 
+  # ----test typed arguments subtypes------
   def testTypedArgumentsInsideArglist(self):
     code = textwrap.dedent("""\
 def foo(
@@ -235,7 +236,7 @@ def foo(
             [('pass', {subtypes.NONE}),
         ],
     ])
-    #------------------------------------------------------------------
+
 
   def testSetComprehension(self):
     code = textwrap.dedent("""\

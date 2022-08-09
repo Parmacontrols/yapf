@@ -320,15 +320,14 @@ def _AlignTrailingComments(final_lines):
           line_content = ''
           pc_line_lengths = []
 
-          #NOTE added by Xiao
+          #NOTE
           contain_object = False
           for line_tok in this_line.tokens:
 
-            #NOTE-------------- added by Xiao----------------------------
+            #NOTE-to find if object with newline items
             if (line_tok.value in [')', ']','}']
               and line_tok.formatted_whitespace_prefix.startswith('\n')):
               contain_object = True
-            #------------------------------------------------------------
 
             whitespace_prefix = line_tok.formatted_whitespace_prefix
 
@@ -350,12 +349,12 @@ def _AlignTrailingComments(final_lines):
 
           all_pc_line_lengths.append(pc_line_lengths)
 
-          #NOTE---------------------added by Xiao-----------------
+          #NOTE-----------------
           # if it's a logical line with object(dict/list/tuple)
           # that have its items in separate lines
           if contain_object:
             break
-          #-------------------------------------------------------
+
         # Calculate the aligned column value
         max_line_length += 2
 
@@ -387,10 +386,7 @@ def _AlignTrailingComments(final_lines):
               whitespace = ' ' * (
                   aligned_col - pc_line_lengths[pc_line_length_index] - 1)
 
-              #NOTE--------------------------------------------------------------#
-              ''' this is added by Xiao because we don't want comments on newlines
-                  to align with comments inline
-              '''
+              #NOTE an option to align newline comments with inline comment
               if not style.Get('ALIGN_NEWLINE_COMMENTS_WITH_INLINE_COMMENTS'):
                 # if this comment starts with '\n', pass and go to next comment
                 if pc_line_lengths[pc_line_length_index] == 0:
@@ -409,7 +405,7 @@ def _AlignTrailingComments(final_lines):
                     whitespace = ' ' * (aligned_col - 1)
 
                 line_content = '\n'.join(line_content)
-              #----------------------------------------------------------------#
+
               # after process, go to next pre comment tokens length
               pc_line_length_index += 1
 
@@ -433,12 +429,6 @@ def _AlignTrailingComments(final_lines):
     if not processed_content:
       final_lines_index += 1
 
-
-
-#########################################################################
-
-
-""" XIAO'S IMPLEMENTATION  """
 
 def _AlignAssignment(final_lines):
   """Align assignment operators and augmented assignment operators to the same column"""
@@ -592,10 +582,6 @@ def _AlignArgAssign(final_lines):
   """NOTE One argument list of one function is on one logical line!
      But funtion calls/argument lists can be in argument list.
   """
-  #for l in final_lines:
-    #for t in l.tokens:
-      #print('token:', t.value, t.subtypes, t.is_comment, t.is_argname_start, t.is_argname)
-
   final_lines_index = 0
   while final_lines_index < len(final_lines):
     line = final_lines[final_lines_index]
@@ -913,7 +899,6 @@ def _AlignDictColon(final_lines):
     if not process_content:
       final_lines_index += 1
 
-########################################################################
 
 
 def _FormatFinalLines(final_lines, verify):

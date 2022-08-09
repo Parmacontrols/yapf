@@ -535,7 +535,6 @@ def CreateYapfStyle():
   style['SPLIT_BEFORE_BITWISE_OPERATOR'] = True
   style['SPLIT_BEFORE_DOT'] = True
   style['SPLIT_BEFORE_EXPRESSION_AFTER_OPENING_PAREN'] = True
-  style['ALIGN_NEWLINE_COMMENTS_WITH_INLINE_COMMENTS'] = True
   return style
 
 

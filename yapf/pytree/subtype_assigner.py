@@ -317,11 +317,10 @@ class _SubtypeAssigner(pytree_visitor.PyTreeVisitor):
         tname = True
         _SetArgListSubtype(child, subtypes.TYPED_NAME,
                            subtypes.TYPED_NAME_ARG_LIST)
-        #NOTE------------added by Xiao--------------------------
-        # we want every element of the tynamme argument list
-        # has this list type
+        # NOTE Every element of the tynamme argument list
+        # should have this list type
         _AppendSubtypeRec(child, subtypes.TYPED_NAME_ARG_LIST)
-        #-------------------------------------------------------
+
       elif child.type == grammar_token.COMMA:
         tname = False
       elif child.type == grammar_token.EQUAL and tname:
