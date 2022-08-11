@@ -277,9 +277,6 @@ def _CanPlaceOnSingleLine(line):
 
 def _AlignTrailingComments(final_lines):
   """Align trailing comments to the same column."""
-  #for l in final_lines:
-    #for t in l.tokens:
-      #print('token:', t.value, t.subtypes, t.is_argname_start)
   final_lines_index = 0
   while final_lines_index < len(final_lines):
     line = final_lines[final_lines_index]
@@ -484,8 +481,11 @@ def _AlignAssignment(final_lines):
           variables_content = ''
           pa_variables_lengths = []
           contain_object = False
+          line_tokens = this_line.tokens
           # only one assignment expression is on each line
-          for line_tok in this_line.tokens:
+          for index in range(len(line_tokens)):
+            line_tok = line_tokens[index]
+
             prefix = line_tok.formatted_whitespace_prefix
             newline_index = prefix.rfind('\n')
             if newline_index != -1:
@@ -493,23 +493,24 @@ def _AlignAssignment(final_lines):
               prefix = prefix[newline_index + 1:]
 
             if line_tok.is_assign or line_tok.is_augassign:
-              next_tok = line_tok.next_token
-              while next_tok and next_tok.value not in ['(', '[', '{']:
-                next_tok = next_tok.next_token
+              next_toks = [line_tokens[i] for i in range(index+1, len(line_tokens))]
               # if there is object(list/tuple/dict) with newline entries, break,
               # update the alignment so far and start to calulate new alignment
-              if (next_tok and next_tok.value in ['(', '[', '{'] and
-                next_tok.next_token.formatted_whitespace_prefix.startswith('\n')):
-                pa_variables_lengths.append(len(variables_content))
-                contain_object = True
-              else:
+              for tok in next_toks:
+                if (tok.value in ['(', '[', '{'] and tok.next_token
+                and tok.next_token.formatted_whitespace_prefix.startswith('\n')):
+                  pa_variables_lengths.append(len(variables_content))
+                  contain_object = True
+                  break
+              if not contain_object:
                 if line_tok.is_assign:
                   pa_variables_lengths.append(len(variables_content))
                 # if augassign, add the extra augmented part to the max length caculation
                 elif line_tok.is_augassign:
                   pa_variables_lengths.append(len(variables_content) + len(line_tok.value) - 1 )
-                # don't add the tokens after the assignment operator
-                break
+              # don't add the tokens
+              # after the assignment operator
+              break
             else:
               variables_content += '{}{}'.format(prefix, line_tok.value)
 
@@ -645,6 +646,12 @@ def _AlignArgAssign(final_lines):
                     name_content = ''
                     prefix = prefix[newline_index + 1:]
                     arg_column = len(prefix)
+                  # if a typed arg name is so long
+                  # that there are newlines inside
+                  # only calulate the last line arg_name that has the assignment
+                  elif line_tok.is_argname:
+                    name_content = ''
+                    prefix = prefix[newline_index + 1:]
                 # if any argument not on newline
                 elif line_tok.is_argname_start:
                   name_content = ''
@@ -814,11 +821,16 @@ def _AlignDictColon(final_lines):
                         index += 1
                         line_tok = line_tokens[index]
                         continue
-                      if line_tok.is_dict_key:
+                      if line_tok.is_dict_key_start:
                         keys_content = ''
                         prefix = prefix.lstrip('\n')
                         key_column = len(prefix)
-                    elif line_tok.is_dict_key:
+                      # if the dict key is so long that it has multi-lines
+                      # only caculate the last line that has the colon
+                      elif line_tok.is_dict_key:
+                        keys_content = ''
+                        prefix = prefix.lstrip('\n')
+                    elif line_tok.is_dict_key_start:
                       key_column = line_tok.column
 
                     if line_tok.is_dict_colon and key_column == first_key_column:
