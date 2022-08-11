@@ -277,6 +277,9 @@ def _CanPlaceOnSingleLine(line):
 
 def _AlignTrailingComments(final_lines):
   """Align trailing comments to the same column."""
+  #for l in final_lines:
+    #for t in l.tokens:
+      #print('token:', t.value, t.subtypes, t.is_argname_start)
   final_lines_index = 0
   while final_lines_index < len(final_lines):
     line = final_lines[final_lines_index]

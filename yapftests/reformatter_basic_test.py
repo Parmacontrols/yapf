@@ -1585,22 +1585,17 @@ s = 'foo \\
 
 
   def testExcessCharacters(self):
-    try:
-      style.SetGlobalStyle(style.CreateStyleFromConfig(
-        '{split_before_expression_after_opening_paren:false}'
-      ))
-      code = textwrap.dedent("""\
-        class foo:
+    code = textwrap.dedent("""\
+      class foo:
 
-          def bar(self):
-            self.write(s=[
-                '%s%s %s' % ('many of really', 'long strings', '+ just makes up 81')
-            ])
-      """)  # noqa
-      llines = yapf_test_helper.ParseAndUnwrap(code)
-      self.assertCodeEqual(code, reformatter.Reformat(llines))
-    finally:
-      style.SetGlobalStyle(style.CreateYapfStyle())
+        def bar(self):
+          self.write(s=[
+              '%s%s %s' % ('many of really', 'long strings', '+ just makes up 81')
+          ])
+    """)  # noqa
+    llines = yapf_test_helper.ParseAndUnwrap(code)
+    self.assertCodeEqual(code, reformatter.Reformat(llines))
+
 
     unformatted_code = textwrap.dedent("""\
         def _():

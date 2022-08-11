@@ -60,14 +60,12 @@ _STYLE_HELP = dict(
       it will start new block alignment."""),
     ALIGN_ARGUMENT_ASSIGNMENT=textwrap.dedent("""\
       Align assignment operators in the argument list if they are all split on newlines.
-      Please use this with 'DEDENT_CLOSING_BRACKETS = True'.
       Arguments without assignment are ignored.
       Arguments without assignment in between will initiate new block alignment calulation.
       Newline comments or objects with newline entries will also start new block alignment."""),
     ALIGN_DICT_COLON=textwrap.dedent("""\
       Align the colons in the dictionary
-      if entries in dictionay are split on newlines.
-      Please use it with both 'DEDENT_CLOSING_BRACKETS'
+      if all entries in dictionay are split on newlines.
       and 'EACH_DICT_ENTRY_ON_SEPERATE_LINE' set True.
       """),
     NEW_ALIGNMENT_AFTER_COMMENTLINE=textwrap.dedent("""\

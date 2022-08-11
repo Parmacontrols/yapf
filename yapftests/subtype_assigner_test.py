@@ -124,12 +124,10 @@ class SubtypeAssignerTest(yapf_test_helper.YAPFTest):
                 subtypes.DEFAULT_OR_NAMED_ASSIGN_ARG_LIST,
             }),
             ('=', {
-                subtypes.DEFAULT_OR_NAMED_ASSIGN,
-                subtypes.DEFAULT_OR_NAMED_ASSIGN_ARG_LIST
+                subtypes.DEFAULT_OR_NAMED_ASSIGN
             }),
             ("'hello world'", {
-                subtypes.NONE,
-                subtypes.DEFAULT_OR_NAMED_ASSIGN_ARG_LIST
+                subtypes.NONE
             }),
             (')', {subtypes.NONE}),
         ],
@@ -160,12 +158,10 @@ class SubtypeAssignerTest(yapf_test_helper.YAPFTest):
                 subtypes.DEFAULT_OR_NAMED_ASSIGN_ARG_LIST,
             }),
             ('=', {
-                subtypes.DEFAULT_OR_NAMED_ASSIGN,
-                subtypes.DEFAULT_OR_NAMED_ASSIGN_ARG_LIST
+                subtypes.DEFAULT_OR_NAMED_ASSIGN
             }),
             ("'hello world'", {
-                subtypes.NONE,
-                subtypes.DEFAULT_OR_NAMED_ASSIGN_ARG_LIST
+                subtypes.NONE
             }),
             (')', {subtypes.NONE}),
         ],
