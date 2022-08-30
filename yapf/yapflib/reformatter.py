@@ -278,13 +278,14 @@ def _AlignTrailingComments(final_lines):
     for tok in line.tokens:
       if (tok.is_comment and isinstance(tok.spaces_required_before, list) and
           tok.value.startswith('#')):
-        # All trailing comments
-        # NOTE not including comments that appear on a line by themselves
+        # All trailing comments and comments that appear on a line by themselves
         # in this block should be indented at the same level. The block is
         # terminated by an empty line or EOF. Enumerate through each line in
         # the block and calculate the max line length. Once complete, use the
         # first col value greater than that value and create the necessary for
         # each line accordingly.
+        # NOTE comments that appear on a line by themselves will be excluded if
+        # align_newline_comments_with_inline_comments is false.
         all_pc_line_lengths = []  # All pre-comment line lengths
         max_line_length = 0
 
@@ -311,11 +312,10 @@ def _AlignTrailingComments(final_lines):
           line_content = ''
           pc_line_lengths = []
 
-          #NOTE
           contain_object = False
           for line_tok in this_line.tokens:
 
-            #NOTE if a line with inline comment is itself
+            #if a line with inline comment is itself
             # with newlines object, we want to start new alignment
             if (line_tok.value in [')', ']','}']
               and line_tok.formatted_whitespace_prefix.startswith('\n')):
@@ -333,7 +333,7 @@ def _AlignTrailingComments(final_lines):
             # if comment starts with '\n', it will save length 0
             if line_tok.is_comment:
               pc_line_lengths.append(len(line_content))
-            elif not line_tok.is_pseudo:
+            else:
               line_content += '{}{}'.format(whitespace_prefix, line_tok.value)
 
           if pc_line_lengths:
@@ -377,10 +377,8 @@ def _AlignTrailingComments(final_lines):
               whitespace = ' ' * (
                   aligned_col - pc_line_lengths[pc_line_length_index] - 1)
 
-
-              ''' this is added when we don't want comments on newlines
-                  to align with comments inline
-              '''
+              #this is added when we don't want comments on newlines
+              #to align with comments inline
               if not style.Get('ALIGN_NEWLINE_COMMENTS_WITH_INLINE_COMMENTS'):
                 # if this comment starts with '\n', pass and go to next comment
                 if pc_line_lengths[pc_line_length_index] == 0:
@@ -389,14 +387,13 @@ def _AlignTrailingComments(final_lines):
                 line_content = '{}{}'.format(whitespace, line_tok.value.strip())
               else:
                 line_content = []
-                padded_space = whitespace
                 for comment_line_index, comment_line in enumerate(
                     line_tok.value.split('\n')):
-                  line_content.append('{}{}'.format(padded_space,
+                  line_content.append('{}{}'.format(whitespace,
                                                   comment_line.strip()))
 
                   if comment_line_index == 0:
-                    padded_space = ' ' * (aligned_col - 1)
+                    whitespace = ' ' * (aligned_col - 1)
 
                 line_content = '\n'.join(line_content)
 
@@ -407,11 +404,8 @@ def _AlignTrailingComments(final_lines):
               # beginning of the line.
               existing_whitespace_prefix = \
                 line_tok.formatted_whitespace_prefix.lstrip('\n')
-              # in case that the existing spaces larger than
-              # spaces that needed to pad, set the whitespace_prefix to empty
-              if len(existing_whitespace_prefix)>len(whitespace):
-                    line_tok.whitespace_prefix = ''
-              elif line_content.startswith(existing_whitespace_prefix):
+
+              if line_content.startswith(existing_whitespace_prefix):
                 line_content = line_content[len(existing_whitespace_prefix):]
 
               line_tok.value = line_content
