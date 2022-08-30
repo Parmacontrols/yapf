@@ -14,7 +14,6 @@
 """Enhanced token information for formatting."""
 
 import keyword
-from operator import sub
 import re
 
 from lib2to3.pgen2 import token
@@ -325,7 +324,6 @@ class FormatToken(object):
     return self.is_comment and re.match(
         r'#.*\bcopybara:\s*(strip|insert|replace)', self.value)
 
-
   @property
   def is_assign(self):
     return subtypes.ASSIGN_OPERATOR in self.subtypes
@@ -382,7 +380,6 @@ class FormatToken(object):
 
     return False
 
-
   @property
   def is_argname_start(self):
     # return true if it's the start of every argument entry
@@ -404,10 +401,3 @@ class FormatToken(object):
         or subtypes.TYPED_NAME_ARG_LIST in self.subtypes
         or subtypes.DEFAULT_OR_NAMED_ASSIGN_ARG_LIST in self.subtypes))
         )
-
-
-
-
-
-
-

@@ -150,19 +150,13 @@ class SubtypeAssignerTest(yapf_test_helper.YAPFTest):
                             subtypes.DEFAULT_OR_NAMED_ASSIGN_ARG_LIST}),
             ('x', {
                 subtypes.NONE,
-                subtypes.DEFAULT_OR_NAMED_ASSIGN_ARG_LIST,
-            }),
+                subtypes.DEFAULT_OR_NAMED_ASSIGN_ARG_LIST}),
             (',', {subtypes.NONE}),
             ('a', {
                 subtypes.NONE,
-                subtypes.DEFAULT_OR_NAMED_ASSIGN_ARG_LIST,
-            }),
-            ('=', {
-                subtypes.DEFAULT_OR_NAMED_ASSIGN
-            }),
-            ("'hello world'", {
-                subtypes.NONE
-            }),
+                subtypes.DEFAULT_OR_NAMED_ASSIGN_ARG_LIST}),
+            ('=', {subtypes.DEFAULT_OR_NAMED_ASSIGN}),
+            ("'hello world'", {subtypes.NONE}),
             (')', {subtypes.NONE}),
         ],
     ])
@@ -184,49 +178,36 @@ def foo(
             ('self', {subtypes.NONE,
                     subtypes.DEFAULT_OR_NAMED_ASSIGN_ARG_LIST,
                     subtypes.PARAMETER_START,
-                    subtypes.PARAMETER_STOP
-            }),
+                    subtypes.PARAMETER_STOP}),
             (',', {subtypes.NONE}),
             ('preprocess', {
                 subtypes.NONE,
                 subtypes.DEFAULT_OR_NAMED_ASSIGN_ARG_LIST,
                 subtypes.PARAMETER_START,
-                subtypes.TYPED_NAME_ARG_LIST
-            }),
+                subtypes.TYPED_NAME_ARG_LIST}),
             (':', {
                 subtypes.TYPED_NAME,
-                subtypes.TYPED_NAME_ARG_LIST,
-            }),
-            ('Callable', {subtypes.TYPED_NAME_ARG_LIST
-            }),
+                subtypes.TYPED_NAME_ARG_LIST}),
+            ('Callable', {subtypes.TYPED_NAME_ARG_LIST}),
             ('[', {
                 subtypes.SUBSCRIPT_BRACKET,
-                subtypes.TYPED_NAME_ARG_LIST
-            }),
-            ('[', {subtypes.TYPED_NAME_ARG_LIST
-            }),
-            ('str', {subtypes.TYPED_NAME_ARG_LIST
-            }),
-            (']', {subtypes.TYPED_NAME_ARG_LIST
-            }),
-            (',', {subtypes.TYPED_NAME_ARG_LIST
-            }),
-            ('str', {subtypes.TYPED_NAME_ARG_LIST
-            }),
+                subtypes.TYPED_NAME_ARG_LIST}),
+            ('[', {subtypes.TYPED_NAME_ARG_LIST}),
+            ('str', {subtypes.TYPED_NAME_ARG_LIST}),
+            (']', {subtypes.TYPED_NAME_ARG_LIST}),
+            (',', {subtypes.TYPED_NAME_ARG_LIST}),
+            ('str', {subtypes.TYPED_NAME_ARG_LIST}),
             (']', {
                 subtypes.SUBSCRIPT_BRACKET,
-                subtypes.TYPED_NAME_ARG_LIST
-            }),
+                subtypes.TYPED_NAME_ARG_LIST}),
             ('=', {
                 subtypes.DEFAULT_OR_NAMED_ASSIGN,
                 subtypes.DEFAULT_OR_NAMED_ASSIGN_ARG_LIST,
-                subtypes.TYPED_NAME
-            }),
+                subtypes.TYPED_NAME}),
             ('identity', {
                 subtypes.NONE,
                 subtypes.DEFAULT_OR_NAMED_ASSIGN_ARG_LIST,
-                subtypes.PARAMETER_STOP
-            }),
+                subtypes.PARAMETER_STOP}),
             (')', {subtypes.NONE}),
             (':', {subtypes.NONE})],
             [('pass', {subtypes.NONE}),

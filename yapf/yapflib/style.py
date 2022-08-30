@@ -57,7 +57,7 @@ _STYLE_HELP = dict(
     ALIGN_ASSIGNMENT=textwrap.dedent("""\
       Align assignment or augmented assignment operators.
       If there is a blank line or newline comment or objects with newline entries in between,
-      it will start new block alignment."""),
+      it will start a new block alignment."""),
     ALIGN_ARGUMENT_ASSIGNMENT=textwrap.dedent("""\
       Align assignment operators in the argument list if they are all split on newlines.
       Arguments without assignment are ignored.
@@ -65,8 +65,8 @@ _STYLE_HELP = dict(
       Newline comments or objects with newline entries will also start new block alignment."""),
     ALIGN_DICT_COLON=textwrap.dedent("""\
       Align the colons in the dictionary
-      if all entries in dictionay are split on newlines.
-      and 'EACH_DICT_ENTRY_ON_SEPERATE_LINE' set True.
+      if all entries in dictionay are split on newlines
+      or 'EACH_DICT_ENTRY_ON_SEPERATE_LINE' is set True.
       """),
     NEW_ALIGNMENT_AFTER_COMMENTLINE=textwrap.dedent("""\
       Start new assignment or colon alignment when there is a newline comment in between."""),

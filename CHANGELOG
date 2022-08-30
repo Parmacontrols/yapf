@@ -2,6 +2,25 @@
 # All notable changes to this project will be documented in this file.
 # This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.41.2] 2022-08-30
+### Fixed
+- Fixed a problem in _AlignTrailingComments(final_lines).
+  Exclude the pseudo parantheses when calculating the line length before the comment.
+- Fixed another problem when the number of the existing spaces before the comment is larger than the padding spaces needed to align.
+
+## [0.41.1] 2022-08-30
+### Added
+- Add 4 new knobs to align assignment operators and dictionary colons. They are align_assignment, align_argument_assignment, align_dict_colon and new_alignment_after_commentline.
+
+## [0.41.0] 2022-08-30
+### Added
+- Add a new knob align_newline_comments_with_inline_comments. This can
+  be used when you don't want to align newline comments with inline comments.
+### Changes
+- Make the comments to start new alignment after multiline objects like
+  dictionaries, lists or function calls or function definitions.
+- changes made to make the newline comments inside the multiline objects not to indent as its parent level.
+
 ## [0.40.0] UNRELEASED
 ### Added
 - Add a new Python parser to generate logical lines.

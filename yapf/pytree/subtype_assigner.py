@@ -389,10 +389,8 @@ def _SetArgListSubtype(node, node_subtype, list_subtype):
 
   for child in node.children:
     node_name = pytree_utils.NodeName(child)
-    #TODO exclude it if the first leaf is a comment in appendfirstleaftokensubtype
     if node_name not in {'atom', 'COMMA'}:
       _AppendFirstLeafTokenSubtype(child, list_subtype)
-
 
 
 def _AppendTokenSubtype(node, subtype):
@@ -400,14 +398,12 @@ def _AppendTokenSubtype(node, subtype):
   pytree_utils.AppendNodeAnnotation(node, pytree_utils.Annotation.SUBTYPE,
                                     subtype)
 
-#TODO should exclude comment child to all Appendsubtypes functions
+
 def _AppendFirstLeafTokenSubtype(node, subtype):
   """Append the first leaf token's subtypes."""
-  #TODO exclude the comment leaf
   if isinstance(node, pytree.Leaf):
-      _AppendTokenSubtype(node, subtype)
-      return
-
+    _AppendTokenSubtype(node, subtype)
+    return
   _AppendFirstLeafTokenSubtype(node.children[0], subtype)
 
 
