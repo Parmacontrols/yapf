@@ -382,7 +382,7 @@ def _AlignTrailingComments(final_lines):
               # Note that there may be newlines embedded in the comments, so
               # we need to apply a whitespace prefix to each line.
               whitespace = ' ' * (
-                  aligned_col - pc_line_lengths[pc_line_length_index] - 1)
+                  aligned_col - pc_line_lengths[pc_line_length_index]-1)
 
               #this is added when we don't want comments on newlines
               #to align with comments inline
@@ -783,8 +783,10 @@ def _AlignDictColon(final_lines):
     for tok in line.tokens:
       # make sure each dict entry on separate lines and
       # the dict has more than one entry
-      if (tok.is_dict_key and tok.formatted_whitespace_prefix.startswith('\n') and
-            not tok.is_comment):
+      if (tok.is_dict_key and tok.previous_token
+          and tok.previous_token.value == '{'
+          and tok.formatted_whitespace_prefix.startswith('\n')
+          and not tok.is_comment):
 
             this_line = line
 
@@ -847,7 +849,7 @@ def _AlignDictColon(final_lines):
                       line_tok = line_tokens[index]
                     # when the matching closing bracket never found
                     # due to edge cases where the closing bracket
-                    # is not indented or dedented, e.g. ']}', with another bracket before
+                    # is not indented or dedented, e.g. ']}'
                     else:
                       all_dict_keys_lengths.append(dict_keys_lengths)
                       break
@@ -887,7 +889,7 @@ def _AlignDictColon(final_lines):
                         # check if the key has multiple tokens and
                         # get the first key token in this key
                         key_token = token.previous_token
-                        while key_token.previous_token.is_dict_key:
+                        while key_token.is_dict_key and not key_token.is_dict_key_start:
                           key_token = key_token.previous_token
                         key_column = len(key_token.formatted_whitespace_prefix.lstrip('\n'))
 
