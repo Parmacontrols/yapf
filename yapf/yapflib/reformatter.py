@@ -687,7 +687,7 @@ def _AlignArgAssign(final_lines):
                 index += 1
                 if index < len(line_tokens):
                   line_tok = line_tokens[index]
-                # when the matching closing bracket never found
+                # when the matching closing bracket is never found
                 # due to edge cases where the closing bracket
                 # is not indented or dedented
                 else:
@@ -783,9 +783,7 @@ def _AlignDictColon(final_lines):
     for tok in line.tokens:
       # make sure each dict entry on separate lines and
       # the dict has more than one entry
-      if (tok.is_dict_key and tok.previous_token
-          and tok.previous_token.value == '{'
-          and tok.formatted_whitespace_prefix.startswith('\n')
+      if (tok.is_dict_key and tok.formatted_whitespace_prefix.startswith('\n')
           and not tok.is_comment):
 
             this_line = line
@@ -847,7 +845,7 @@ def _AlignDictColon(final_lines):
                     index += 1
                     if index < len(line_tokens):
                       line_tok = line_tokens[index]
-                    # when the matching closing bracket never found
+                    # when the matching closing bracket is never found
                     # due to edge cases where the closing bracket
                     # is not indented or dedented, e.g. ']}'
                     else:
